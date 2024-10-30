@@ -3,6 +3,7 @@ const xlsx = require('xlsx');
 const path = require('path');
 const Upc= require('../model/upc');
 const Url= require('../model/url');
+const VisitedUrl= require('../model/visitedurl')
 const AutoFetchData= require('../model/autofetchdata')
 const fs = require('fs');
 const product = require('../model/product');

@@ -14,7 +14,8 @@ function App() {
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
   const [weblink,setWeblink]=useState('');
-  const [scrapData,setScrapData]=useState('')
+  const [scrapData,setScrapData]=useState('');
+  const [surl,setSurl]=useState('');
 
   const [file, setFile] = useState(null);
   const [urlProduct, setUrlProduct] = useState([{}]);
@@ -148,7 +149,7 @@ const getnumberofupdatedpr=async()=>{
 
   const autofetch = async () => {
     console.log("autofetch");
-    let index =81;
+    let index =0;
     const intervalId = setInterval(async () => {
       if (index < links.length) {
         try {
@@ -203,8 +204,26 @@ const getnumberofupdatedpr=async()=>{
     }
   };
 
+  // ----------scrapping bee function------------
+  const scrapbee=async()=>{
+    try{
+      let result= await fetch('http://localhost:10001/scrapingbee',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({url:surl})
+      })
+      result=await result.json();
+      console.log(result);
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   return (
     <>
+     <input type="text" onChange={(e) => setSurl(e.target.value)} />
+      <button onClick={scrapbee}>Scrapbee Data</button> <br />
+      
           <input type="text" onChange={(e) => setWeblink(e.target.value)} />
 
           <button onClick={scrapdata}>Scrap Data</button> <br />

@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer-extra');
+const Url= require('../model/url');
+const VisitedUrl= require('../model/visitedurl')
 // const Upc = require('../model/upc');
 const Data = require('../model/product');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
@@ -113,76 +115,9 @@ exports.checkurl = async (req, res) => {
 };
 
 
-
-
-
-exports.scrapdata = async (req, res) => {
-    let browser; // Declare browser outside the try block for cleanup
-    try {
-        const url = req.body.weblink;
-
-        // Validate URL
-        if (!url || typeof url !== 'string' || !url.startsWith('http')) {
-            return res.status(400).json({ error: 'Invalid URL' });
-        }
-
-        // Launch Puppeteer instance in non-headless mode
-        browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-        const page = await browser.newPage();
-
-        // Set user agent and additional headers
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-        await page.setExtraHTTPHeaders({
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Referer': 'https://www.google.com/',
-        });
-
-        await page.goto(url, {
-            waitUntil: 'networkidle2',
-            timeout: 360000
-        });
-
-        const links = await page.evaluate(() => {
-            const anchors = Array.from(document.querySelectorAll('.pagination a'));
-            return anchors.map(anchor => anchor.href);
-        });
-        console.log(links);
-        const productUrls = await page.evaluate(() => {
-            const scriptTag = document.querySelector('script[type="application/ld+json"]');
-            if (scriptTag) {
-                try {
-                    const jsonData = JSON.parse(scriptTag.textContent);
-                    // Extract URLs from itemListElement
-                    return jsonData.itemListElement.map(item => item.item.url);
-                } catch (e) {
-                    console.error('Error parsing JSON:', e);
-                    return [];
-                }
-            }
-            return [];
-        });
-
-        console.log(productUrls);
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'An error occurred while scraping data.' });
-    } finally {
-        // Ensure the browser is closed
-        if (browser) {
-            await browser.close();
-        }
-    }
-};
-
-
-
-
-
-
 exports.autofetchdata= async (req,res)=>{
     try {
-        const apiKey = '4426531a0d85cc78be0c85ac0299243509d0867b'; 
+
         const url = req.body.link;
         let datas = await Data.find({ vendorURL: url });
         // Launch Puppeteer instance in non-headless mode
@@ -194,7 +129,7 @@ exports.autofetchdata= async (req,res)=>{
         await page.setExtraHTTPHeaders({
             'Accept-Language': 'en-US,en;q=0.9',
             'Referer': 'https://www.google.com/',
-            'Authorization': `Bearer ${apiKey}`
+            // 'Authorization': `Bearer ${apiKey}`
         });
 
 
@@ -234,7 +169,9 @@ exports.autofetchdata= async (req,res)=>{
             }
             return null;
         }).filter(item => item !== null);
+        VisitedUrl.findOneAndDelete({url:url})
         await browser.close();
+
 
         // ---save data into database
         for (const d of filterData) {

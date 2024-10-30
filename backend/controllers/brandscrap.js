@@ -13,8 +13,7 @@ exports.brandscrap = async (req, res) => {
         if (!url || typeof url !== 'string' || !url.startsWith('http')) {
             return res.status(400).json({ error: 'Invalid URL' });
         }
-
-        // Launch Puppeteer instance in non-headless mode
+        // Launch Puppeteer ins   tance in non-headless mode
         browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
         const page = await browser.newPage();
 
@@ -106,3 +105,20 @@ const handleSecondPageScraping = async (urls) => {
    
    }// Close the browser after the second process
 };
+
+
+
+// ------------scraping bee setting
+
+exports.scrapingbee=async(req,res)=>{
+ var client = new scrapingbee.ScrapingBeeClient('J3ZDHM98OZX3DNXI4Q2QAJFFR0B9MSV8DPQE5YW6A8GZ2SLCUQE22QM693C7DJ7UWEYEV05V0EEOVMZB');
+ var response = await client.get({
+    url: url,
+    params: {  
+    },
+  })
+  var decoder = new TextDecoder();
+  var text = decoder.decode(response.data);
+  console.log(text);
+  res.send(text);
+}
