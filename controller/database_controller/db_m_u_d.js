@@ -365,3 +365,15 @@ exports.getserialnumber = async(req, res) => {
         res.status(500).send(err);
     }
 };
+
+exports.getbackup = async(req, res) => {
+    try {
+        console.log("get backup")
+        let resultData = await MBackup.find();
+        console.log(resultData);
+        res.status(200).send(resultData);
+    } catch (err) {
+        console.log(err);
+        res.send(err)
+    }
+}

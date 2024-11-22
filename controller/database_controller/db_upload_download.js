@@ -282,7 +282,7 @@ const divideArray2 = async(arr) => {
 };
 
 exports.uploadinvdata = async(req, res) => {
-    let backupdata= await InvProduct.find();
+    let backupdata= await AutoFetchData.find();
     const backup= new Backup({data:backupdata});
     await backup.save();
     await InvProduct.deleteMany();
