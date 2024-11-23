@@ -154,8 +154,6 @@ const saveData=async(utagData)=>{
 }
 
 exports.autofetchdata4 = async(req, res) => {
-    console.log('autofetch')
-   
     try {
         const client = new ZenRows(apikey);
         const url = req.body.link

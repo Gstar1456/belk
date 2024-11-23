@@ -303,7 +303,7 @@ exports.uploadinvdata = async(req, res) => {
 
     const file = req.file;
     if (!file) {
-        return res.status(400).send('No file uploaded.');
+        return res.status(400).send('No file uploaded.'); 
     }
     // Load the uploaded Excel file
     const workbook = xlsx.readFile(file.path);
@@ -312,12 +312,11 @@ exports.uploadinvdata = async(req, res) => {
 
     // Convert the sheet to JSON
     const data1 = xlsx.utils.sheet_to_json(sheet);
-
     const data = data1.filter((d) => d['ASIN'] !== undefined && d['Input UPC'] !== undefined);
     if (data.length === 0) {
+        console.log("no data")
         return res.status(400).json({ msg: 'No valid data to process' });
     }
-
     InvProduct.insertMany(data)
         .then(async() => {
             const uniqueUpc = data

@@ -10,6 +10,7 @@ const InvUrl7 = require('../../model/Inventory_model/invUrl7');
 const InvUrl8 = require('../../model/Inventory_model/invUrl8');
 const AutoFetchData = require('../../model/Inventory_model/autofetchdata');
 const Upc = require('../../model/Brand_model/upc');
+const Backup= require('../../model/Inventory_model/backup')
 
 // -----------send url list of product to home page------
 exports.sendproductsurl = async(req, res) => {
@@ -25,7 +26,18 @@ exports.sendproductsurl = async(req, res) => {
     }
 }
 
-
+exports.deletebackup=async(req,res)=>{
+    try{
+        const {name}= req.body;
+         let result= await Backup.deleteOne({name:name})
+         if(result){
+            res.status(200).json({status:true})
+         }
+    }catch(err){
+        console.log(err);
+        res.status(500).send(err)
+    }
+}
 
 
 // ------send inventory products links to home page---
