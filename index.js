@@ -16,7 +16,7 @@ const port = process.env.PORT || 10000;
 
 
 const corsOptions = {
-    origin: 'https://gstar-tool.vercel.app',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 };
