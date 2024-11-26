@@ -62,7 +62,10 @@ exports.getinvlinks = async(req, res) => {
 exports.getinvproduct = async(req, res) => {
         try {
             const invProduct = await AutoFetchData.find();
-            res.status(200).send(invProduct)
+            let filterdata= invProduct.filter((product,index,self)=>{
+                index=== self.findIndex((p)=> p['Input UPC']=== product['Input UPC'])
+            })
+            res.status(200).send(filterdata)
         } catch (err) {
             console.log(err);
             res.send(err)

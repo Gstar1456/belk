@@ -122,7 +122,7 @@ exports.downloadExcel = async(req, res) => {
 exports.downloadInvSheet = async(req, res) => {
     try {
         const data = await AutoFetchData.find();
-        const jsondata = data.map((item) => {
+        var jsondata = data.map((item) => {
             return {
                 'Input UPC': item['Input UPC'],
                 ASIN: item['ASIN'],
@@ -140,7 +140,13 @@ exports.downloadInvSheet = async(req, res) => {
                 'Current Quantity': item['Current Quantity']
             }
         });
-        const worksheet = xlsx.utils.json_to_sheet(jsondata);
+        console.log(jsondata.length)
+       let udata=jsondata.filter((product, index, self) => 
+            index === self.findIndex(p => p['Input UPC'] === product['Input UPC'])
+          );
+        console.log(data.length)
+
+        const worksheet = xlsx.utils.json_to_sheet(udata);
         const workbook = xlsx.utils.book_new();
         xlsx.utils.book_append_sheet(workbook, worksheet, "Products");
         const filePath = path.join(__dirname, 'Updated_inventory.xlsx');
