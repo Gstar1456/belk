@@ -9,14 +9,14 @@ const analysisRouter = require('./router/analysisRouter')
 const manual_inv_check= require('./router/manual_inv_check');
 const calculationRouter= require('./router/calculationRouter')
 db();
-
+puppeteer.use(StealthPlugin());
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 10000;
 
 
 const corsOptions = {
-    origin: 'https://gstar-theta.vercel.app',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 };

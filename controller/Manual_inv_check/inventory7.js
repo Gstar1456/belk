@@ -51,8 +51,8 @@ const saveData=async(utagData)=>{
             return {
                 'Vendor URL': data['Vendor URL'],
                 'quantity': matchedProduct.quantity,
-                'Product Cost': Number(data['Product Cost']).trim(2),
-                'Current Price': Number(Number(coupon) > 0 && Boolean(matchedProduct.onsale) === false ? matchedProduct.price * (1 - (coupon / 100)) : matchedProduct.price).trim(2),
+                'Product Cost': Number(data['Product Cost']),
+                'Current Price': Number(Number(coupon) > 0 && Boolean(matchedProduct.onsale) === false ? matchedProduct.price * (1 - (coupon / 100)) : matchedProduct.price),
                 'Image link': matchedProduct.imgurl,
                 SKUs: data.SKUs,
                 available:data.available,
