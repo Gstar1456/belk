@@ -368,7 +368,6 @@ exports.getserialnumber = async(req, res) => {
 
 exports.getbackup = async(req, res) => {
     try {
-        console.log("get backup")
         let resultData = await MBackup.find();
         console.log(resultData);
         res.status(200).send(resultData);
@@ -376,4 +375,14 @@ exports.getbackup = async(req, res) => {
         console.log(err);
         res.send(err)
     }
+}
+
+exports.remainingdata=async(req,res)=>{
+try{
+let products= await MInvProduct.find();
+res.send(products);
+}catch(err){
+    console.log(err);
+    res.send(err);
+}
 }

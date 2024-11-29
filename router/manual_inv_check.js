@@ -12,7 +12,7 @@ const { autofetchdata5} = require('../controller/Manual_inv_check/inventory5')
 const { autofetchdata6} = require('../controller/Manual_inv_check/inventory6')
 const { autofetchdata7} = require('../controller/Manual_inv_check/inventory7')
 const { autofetchdata8} = require('../controller/Manual_inv_check/inventory8');
-const {getbackup, getupdatedproduct, geterrorurl,getserialnumber, Muploadinvdata, getinvlinks, seterrorindex, setindex,setindex2, setindex3,setindex4, setindex5,setindex6,setindex7,setindex8,settime} = require('../controller/database_controller/db_m_u_d');
+const {remainingdata, getbackup, getupdatedproduct, geterrorurl,getserialnumber, Muploadinvdata, getinvlinks, seterrorindex, setindex,setindex2, setindex3,setindex4, setindex5,setindex6,setindex7,setindex8,settime} = require('../controller/database_controller/db_m_u_d');
 
 
 router.post('/autofetchdata1', autofetchdata1);
@@ -38,6 +38,7 @@ router.post('/settime', settime);
 router.get('/getserialnumber', getserialnumber);
 router.get('/geterrorurl', geterrorurl);
 router.get('/getupdatedproduct', getupdatedproduct);
+router.get('/remainingdata', remainingdata);
 router.get('/getbackup', getbackup);
 
 
