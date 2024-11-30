@@ -380,7 +380,12 @@ exports.getbackup = async(req, res) => {
 exports.remainingdata=async(req,res)=>{
 try{
 let products= await MInvProduct.find();
-res.send(products);
+let result= await MAutoFetchData.find();
+
+let p= products.map((d)=> d.upc)
+let q= result.map((d)=> d.upc);
+let r= p.filter((d)=> !q.includes(d))
+res.send(r);
 }catch(err){
     console.log(err);
     res.send(err);
