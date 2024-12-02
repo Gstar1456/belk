@@ -16,13 +16,12 @@ const port = process.env.PORT || 10000;
 
 
 const corsOptions = {
-    origin: 'https://gstar-theta.vercel.app/',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 };
 
 app.use(cors(corsOptions));
-
 app.use(express.json());
 app.use('/', router);
 app.use('/inv', invRouter);
